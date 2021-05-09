@@ -34,7 +34,7 @@ __step4:__
 1. The code folder contains two MATLAB script files：  
     DD_CF_v1.m is the function script of the DD-CF algorithm；  
     testCode.m is a test program that calls the DD_CF_v1.m script to verify the baseline correction effect of the DD-CF algorithm on the data in the folder data.  
-2. The data folder contains multiple sets of real experimental data of mass spectra, ion mobility spectra, and chromatographs to verify the baseline correction effect of the algorithm.More mass spectrometry experimental data can be downloaded from Baidu Netdisk:  
+2. The data folder contains multiple sets of real experimental data of mass spectra, ion mobility spectra, and chromatographs to verify the baseline correction effect of the algorithm. More mass spectrometry experimental data can be downloaded from Baidu Netdisk: [More mass spectrum data link](https://pan.baidu.com/s/1MQ5bopY8lhOMwYQmR9g_-w). Extraction code：f09i. 
 3. You can use the DD_CF_v1 function __"[DBSig,baseline] = DD_CF_v1(Sig)"__ to reslize the baseline adaptive correction. where, DBSig is the signal which represents signal after baseline correction;baseline represents the fitting baseline;Sig represents signal needed to be removed baseline.
 
 ## Real chemical signal baseline correction example  
