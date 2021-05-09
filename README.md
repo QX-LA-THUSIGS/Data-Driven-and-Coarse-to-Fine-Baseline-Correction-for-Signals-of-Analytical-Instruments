@@ -3,4 +3,4 @@
 
 
 ## Algorithm introduction
-![DD-CF algorithm flow chart](https://github.com/QX-LA-THUSIGS/Data-Driven-and-Coarse-to-Fine-Baseline-Correction-for-Signals-of-Analytical-Instruments/blob/main/picture/flow_chart.tif)
+![DD-CF algorithm flow chart](https://github.com/QX-LA-THUSIGS/Data-Driven-and-Coarse-to-Fine-Baseline-Correction-for-Signals-of-Analytical-Instruments/blob/main/picture/flow_chart.png)
