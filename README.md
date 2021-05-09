@@ -4,7 +4,7 @@
 __The algorithm overcomes the mode-mixing problem of empirical mode decomposition algorithm by adaptively locating and removing high-amplitude spectral peaks. Through qualitative and quantitative analysis, compared with the traditional least squares fitting and sparse representation, the algorithm based on empirical mode decomposition (DD-CF) has better advantages in processing time and baseline fitting effect. At the same time, the biggest feature of this algorithm is that it can realize the data-driven baseline correction of mass spectrometer, chromatograph and ion mobility spectrum without user intervention. Compared with traditional algorithms, DD-CF algorithm has stronger adaptive ability.__  
 
 
-__For details of the algorithm, please refer to the original reference of this algorithm__  
+__For details of the algorithm, please refer to the original reference of this algorithm.(DOI:10.1016/j.aca.2021.338386)__  
 
 
 ## Algorithm introduction
