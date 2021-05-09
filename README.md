@@ -8,10 +8,13 @@
 __step1:__  
   Polynomial fitting method to obtain rough baseline
 __step2:__    
+  Cubic spline interpolation to remove spectral peaks
+__step3:__  
 
-__step2:__  
+__step4:__   
 
-__step2:__   
+
+__For details of the algorithm, please refer to the original reference of this algorithm__  
 
 ## Statement
 
