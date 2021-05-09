@@ -1,5 +1,10 @@
 # Data-Driven-and-Coarse-to-Fine-Baseline-Correction-for-Signals-of-Analytical-Instruments
-## You can use this program to realize the baseline adaptive correction of signals from a variety of analytical instruments,  including but not limited to mass spectrometers, ion mobility spectrometers, and chromatographs.The feature of this program is that in the process of different kinds of chemical signal baseline calibration, human intervention is generally not required.
+## You can use this program to realize the baseline adaptive correction of signals from a variety of analytical instruments,  including but not limited to mass spectrometers, ion mobility spectrometers, and chromatographs.  
+
+__The algorithm overcomes the mode-mixing problem of empirical mode decomposition algorithm by adaptively locating and removing high-amplitude spectral peaks. Through qualitative and quantitative analysis, compared with the traditional least squares fitting and sparse representation, the algorithm based on empirical mode decomposition (DD-CF) has better advantages in processing time and baseline fitting effect. At the same time, the biggest feature of this algorithm is that it can realize the data-driven baseline correction of mass spectrometer, chromatograph and ion mobility spectrum without user intervention. Compared with traditional algorithms, DD-CF algorithm has stronger adaptive ability.__  
+
+
+__For details of the algorithm, please refer to the original reference of this algorithm__  
 
 
 ## Algorithm introduction
@@ -24,7 +29,6 @@ __step4:__
 
   Signal reconstruction  
 
-__For details of the algorithm, please refer to the original reference of this algorithm__  
 
 ## How to use  
 1. The code folder contains two MATLAB script files：  
