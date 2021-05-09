@@ -6,9 +6,9 @@
 ![DD-CF algorithm flow chart](https://github.com/QX-LA-THUSIGS/Data-Driven-and-Coarse-to-Fine-Baseline-Correction-for-Signals-of-Analytical-Instruments/blob/main/picture/flow_chart.png)
 
 __step1:__  
-  Polynomial fitting method to obtain rough baseline
+  Polynomial fitting method to obtain rough baseline  
 __step2:__    
-  Cubic spline interpolation to remove spectral peaks
+  Cubic spline interpolation to remove spectral peaks  
 __step3:__  
 
 __step4:__   
