@@ -5,6 +5,14 @@
 ## Algorithm introduction
 ![DD-CF algorithm flow chart](https://github.com/QX-LA-THUSIGS/Data-Driven-and-Coarse-to-Fine-Baseline-Correction-for-Signals-of-Analytical-Instruments/blob/main/picture/flow_chart.png)
 
+__step1:__  
+  Polynomial fitting method to obtain rough baseline
+__step2:__    
+
+__step2:__  
+
+__step2:__   
+
 ## Statement
 
 The copyright belongs to the Analytical Instrument Group of Shenzhen International Graduate School of Tsinghua University.  
