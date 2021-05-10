@@ -48,7 +48,7 @@ __2. Chromatographic instrument__
 
 __3. Mobility spectrum__
 ![Mobility spectrum signal](https://github.com/QX-LA-THUSIGS/Data-Driven-and-Coarse-to-Fine-Baseline-Correction-for-Signals-of-Analytical-Instruments/blob/main/picture/migration_spectrum.png)    
-            _Figure4:the baseline correction of migration spectrum signal_ 
+            _Figure4:the baseline correction of mobility spectrum signal_ 
 
 
 ## Statement
