@@ -3,6 +3,11 @@
 
 __The algorithm overcomes the mode-mixing problem of empirical mode decomposition algorithm by adaptively locating and removing high-amplitude spectral peaks. Through qualitative and quantitative analysis, compared with the traditional least squares fitting and sparse representation, the algorithm based on empirical mode decomposition (DD-CF) has better advantages in processing time and baseline fitting effect. At the same time, the biggest feature of this algorithm is that it can realize the data-driven baseline correction of mass spectrometer, chromatograph and ion mobility spectrum without user intervention. Compared with traditional algorithms, DD-CF algorithm has stronger adaptive ability.__  
 
+## Attention
+  
+__This algorithm uses MATLAB's built-in function EMD, which is only supported in version 2018a and later versions. Therefore, we recommend using a newer version of MATLAB. If you can only use MATLAB before 2018a, we recommend using the method mentioned in [this article](https://www.programmersought.com/article/94925533430/) to download and install the independent EMD toolkit.There are many similar EMD toolkit installation methods, you can also find and install it yourself. However, it should be noted that the calling method of the custom EMD function and the DD-CF algorithm mentioned in this article may be different. Please make corresponding improvements on the original algorithm according to the toolkit prompts.__
+
+
 
 __For details of the algorithm, please refer to the original reference of this algorithm.(DOI:10.1016/j.aca.2021.338386)__  
 
