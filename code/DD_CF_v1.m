@@ -11,7 +11,7 @@
 %
 %References:(If you need to cite or improve this algorithm, please declare the original document of this algorithm in your work.)
 %Xiangchun Xu, Xiang Qian et.al, Data-Driven and Coarse-to-Fine Baseline Correction for Signals of Analytical Instruments[J],
-%Analytica Chimica Acta,2021,1157(338386):1873-4324.£¨DOI:10.1016/j.aca.2021.338386£©
+%Analytica Chimica Acta,2021,1157(338386):1873-4324.ï¼ˆDOI:10.1016/j.aca.2021.338386ï¼‰
 %
 % How to use?
 %You can use the DD_CF_v1 function "[DBSig,baseline] = DD_CF_v1(Sig)" to reslize the baseline adaptive
@@ -24,45 +24,45 @@
 
 function [DBSig,baseline] = DD_CF_v1(Sig)
     %The FliplrLength is the proportion of the number of extreme points contained in the signal segment that needs to be flipped (percentage, this parameter does not need to be modified)
-    FliplrLength = 100; %ĞèÒª·­×ªĞÅºÅ¶Î°üº¬µÄ¼«Öµµã¸öÊıÕ¼±È£¨°Ù·Ö±È£¬¸Ã²ÎÊı²»ĞèÒªĞŞ¸Ä£©
+    FliplrLength = 100; %éœ€è¦ç¿»è½¬ä¿¡å·æ®µåŒ…å«çš„æå€¼ç‚¹ä¸ªæ•°å æ¯”ï¼ˆç™¾åˆ†æ¯”ï¼Œè¯¥å‚æ•°ä¸éœ€è¦ä¿®æ”¹ï¼‰
 
     SigButter = Sig;
 
-    [tmax,tmin,SigButtermax,SigButtermin]  = fink_local_peaks(SigButter);   %Find all local maximum and local minimum points of the signal/ÕÒµ½ĞÅºÅËùÓĞµÄ¾Ö²¿¼«´óÖµµãÓë¾Ö²¿¼«Ğ¡Öµµã
+    [tmax,tmin,SigButtermax,SigButtermin]  = fink_local_peaks(SigButter);   %Find all local maximum and local minimum points of the signal/æ‰¾åˆ°ä¿¡å·æ‰€æœ‰çš„å±€éƒ¨æå¤§å€¼ç‚¹ä¸å±€éƒ¨æå°å€¼ç‚¹
 
-    %%%Step1:Location of high-amplitude peaks/¸ß·ùÖµÆ×·åµÄ¶¨Î»%%%
+    %%%Step1:Location of high-amplitude peaks/é«˜å¹…å€¼è°±å³°çš„å®šä½%%%
     xdata = tmax;
     ydata = SigButtermax;
     [peak_number,zcrnumber,gof,x,y,col] = polyfit_ployval_peaknum_zcrnumber(xdata,ydata,0.95,SigButter);    
   
-    zcrnumber = zcrnumber+2;      %Add 2 to prevent extreme situations where the actual baseline inflection point appears at the end point/¼Ó2£¬·ÀÖ¹³öÏÖÊµ¼Ê»ùÏß¹Õµã³öÏÖÔÚ¶ËµãµÄ¼«¶ËÇé¿ö
+    zcrnumber = zcrnumber+2;      %Add 2 to prevent extreme situations where the actual baseline inflection point appears at the end point/åŠ 2ï¼Œé˜²æ­¢å‡ºç°å®é™…åŸºçº¿æ‹ç‚¹å‡ºç°åœ¨ç«¯ç‚¹çš„æç«¯æƒ…å†µ
 
     %%%Step2:Truncate each peak, find the length of each segment, and judge
     %%%whether there is interference between them
-    %%%¶ÔÃ¿¸öÆ×·å½øĞĞ½Ø¶Ï£¬Çó³öÃ¿Ò»¶ÎµÄ³¤¶È£¬²¢ÅĞ¶ÏÖ®¼äÊÇ·ñ·¢Éú¸ÉÈÅ%%%
+    %%%å¯¹æ¯ä¸ªè°±å³°è¿›è¡Œæˆªæ–­ï¼Œæ±‚å‡ºæ¯ä¸€æ®µçš„é•¿åº¦ï¼Œå¹¶åˆ¤æ–­ä¹‹é—´æ˜¯å¦å‘ç”Ÿå¹²æ‰°%%%
     [subsection1,subsection_min] = delete_ms_peaks(col,tmax,tmin,SigButtermax,SigButtermin);
     
-    %%%Cubic Spline Interpolation Method to Complement Spectral Peaks/Èı´ÎÑùÌõ²åÖµ²¹ÆëÆ×·å%%%
+    %%%Cubic Spline Interpolation Method to Complement Spectral Peaks/ä¸‰æ¬¡æ ·æ¡æ’å€¼è¡¥é½è°±å³°%%%
     [SigButterRIS] = cubic_splin_interpolation(subsection1,subsection_min,SigButtermax,SigButtermin);
     
     
 
-    %%%Flip and extend both ends of the signal from which the spectral peak is removed/¶ÔÈ¥³ı¼äĞª·åÖµµÄĞÅºÅ½øĞĞÁ½¶Ë·­×ª%%%
+    %%%Flip and extend both ends of the signal from which the spectral peak is removed/å¯¹å»é™¤é—´æ­‡å³°å€¼çš„ä¿¡å·è¿›è¡Œä¸¤ç«¯ç¿»è½¬%%%
     [CompSigButter,Lsection] = reduce_end_effect(SigButterRIS,FliplrLength);
 
-    %%%Step3:EMD/¾­ÑéÄ£Ì¬·Ö½â%%%
+    %%%Step3:EMD/ç»éªŒæ¨¡æ€åˆ†è§£%%%
     N = length(CompSigButter);
     Nstd = 0.2;
     NR = 500;
     MaxIter = 5000;
     ecg = CompSigButter;
     % emd(ecg,'Interpolation','pchip', 'MaxNumIMF',30);
-    [modes,res,info]=emd(ecg, 'MaxNumIMF',30);%,'Interpolation','pchip');
+    [modes,res,info]=emd(ecg, 'MaxNumIMF',30);
     modes = [modes res];
     modes = modes';
     t=1:length(ecg);
 
-    %%%all IMF figure/¶Ô¸÷¸öÄ£Ì¬½øĞĞ»æÍ¼%%%
+    %%%all IMF figure/å¯¹å„ä¸ªæ¨¡æ€è¿›è¡Œç»˜å›¾%%%
     [a,b]=size(modes);
     t = 1:1:length(CompSigButter);
     figure(2);
@@ -83,8 +83,8 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
     ylabel(['IMF ' num2str(a)]);
     axis tight;xlabel('Variables','FontSize',20);
     
-    %%%Step4:¶ÔIMFs½øĞĞ·ÖÀà%%%
-    %%%¹ıÁãµã·¨
+    %%%Step4:å¯¹IMFsè¿›è¡Œåˆ†ç±»%%%
+    %%%è¿‡é›¶ç‚¹æ³•
     [m,n] = size(modes);
     zcrnum = [];
     for ii = 1:m
@@ -93,13 +93,13 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
     end
 
     m = [];
-    m = find(zcrnum<=zcrnumber);        %Select the imf dominated by the baseline according to the number of zero crossings/¸ù¾İ¹ıÁãµãµÄ¸öÊıÑ¡ÔñÓÉ»ùÏßÖ÷µ¼µÄimf
+    m = find(zcrnum<=zcrnumber);        %Select the imf dominated by the baseline according to the number of zero crossings/æ ¹æ®è¿‡é›¶ç‚¹çš„ä¸ªæ•°é€‰æ‹©ç”±åŸºçº¿ä¸»å¯¼çš„imf
     imfbegin = m(1,1);
     imfend = m(1,end);
 
     
     %%%Find baseline%%%
-    if length(Lsection)+length(SigButter) >= n   %Determine whether the index exceeds the matrix dimension/ÅĞ¶ÏË÷ÒıÊÇ·ñ³¬³ö¾ØÕóÎ¬¶È
+    if length(Lsection)+length(SigButter) >= n   %Determine whether the index exceeds the matrix dimension/åˆ¤æ–­ç´¢å¼•æ˜¯å¦è¶…å‡ºçŸ©é˜µç»´åº¦
         temp_array = ones(m,length(Lsection)+length(SigButter)-n+1);
         temp_array = modes(:,end).*temp_array;
         modes = [modes temp_array];
@@ -116,22 +116,22 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
         
 
     %**************************************************************************
-    %Find all local extreme points of the signal/ÇóĞÅºÅËùÓĞ¾Ö²¿¼«Öµµã
+    %Find all local extreme points of the signal/æ±‚ä¿¡å·æ‰€æœ‰å±€éƒ¨æå€¼ç‚¹
     %[tmax,tmin,SigButtermax,SigButtermin] = fink_local_peaks(sig)
     %*************************************************************************
     function [tmax,tmin,SigButtermax,SigButtermin]  = fink_local_peaks(sig)
-        %%%¶ÔµÍÍ¨Ö®ºóµÄĞÅºÅÇóÈ¡¼«Öµµã%%%
+        %%%å¯¹ä½é€šä¹‹åçš„ä¿¡å·æ±‚å–æå€¼ç‚¹%%%
         t1 = 1:length(sig);
-        %%%ÇóĞÅºÅµÄËùÓĞ¼«ÖµµãµÄÎ»ÖÃ
+        %%%æ±‚ä¿¡å·çš„æ‰€æœ‰æå€¼ç‚¹çš„ä½ç½®
         Lmax = diff(sign(diff(sig)))== -2;
         Lmin = diff(sign(diff(sig)))== 2; 
-        %%%½«ĞÅºÅ²¹³äµÀÔ­ÓĞµÄÊı¾İ³¤¶È
+        %%%å°†ä¿¡å·è¡¥å……é“åŸæœ‰çš„æ•°æ®é•¿åº¦
         Lmax = [false, Lmax, false];        
         Lmin =  [false, Lmin, false];
-        %%%±ê×¢¼«Öµµãºá×ø±êµÄÎ»ÖÃ
+        %%%æ ‡æ³¨æå€¼ç‚¹æ¨ªåæ ‡çš„ä½ç½®
         tmax = t1(Lmax);
         tmin = t1(Lmin); 
-        %%%±ê×¢¼«Öµµã×İ×ø±êµÄÎ»ÖÃ
+        %%%æ ‡æ³¨æå€¼ç‚¹çºµåæ ‡çš„ä½ç½®
         SigButtermax = sig(Lmax);
         SigButtermin = sig(Lmin); 
     end 
@@ -139,12 +139,12 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
     
     %**************************************************************************
     %Truncate each peak, find the length of each segment, and judge whether there is interference between them
-    %¶ÔÃ¿¸öÆ×·å½øĞĞ½Ø¶Ï£¬Çó³öÃ¿Ò»¶ÎµÄ³¤¶È£¬²¢ÅĞ¶ÏÖ®¼äÊÇ·ñ·¢Éú¸ÉÈÅ
+    %å¯¹æ¯ä¸ªè°±å³°è¿›è¡Œæˆªæ–­ï¼Œæ±‚å‡ºæ¯ä¸€æ®µçš„é•¿åº¦ï¼Œå¹¶åˆ¤æ–­ä¹‹é—´æ˜¯å¦å‘ç”Ÿå¹²æ‰°
     %[subsection1,subsection_min] = delete_ms_peaks(col,tmax,tmin,SigButtermax,SigButtermin)
     %*************************************************************************
     function [subsection1,subsection_min] = delete_ms_peaks(col,tmax,tmin,SigButtermax,SigButtermin)
         
-        subsection = zeros(3,length(col));      %Store each start and end point of the truncation into the subsection matrix/½«½Ø¶ÏµÄÃ¿Ò»¸öÆğÊ¼ÖÕÖ¹µã´æÈësubsection¾ØÕóÖĞ
+        subsection = zeros(3,length(col));      %Store each start and end point of the truncation into the subsection matrix/å°†æˆªæ–­çš„æ¯ä¸€ä¸ªèµ·å§‹ç»ˆæ­¢ç‚¹å­˜å…¥subsectionçŸ©é˜µä¸­
         for  i2 = 1:length(col)
             n = find(xdata == col(i2)) - 2;
             while SigButtermax(n) > SigButtermax(find(xdata == col(i2)))
@@ -157,18 +157,18 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
             end
             subsection(2,i2) = tmax(m);
         end
-        %%%¼ÆËãsubsection¾ØÕóÖĞµÄÃ¿¶Î³¤¶È´æÈëµÚÈıĞĞ
+        %%%è®¡ç®—subsectionçŸ©é˜µä¸­çš„æ¯æ®µé•¿åº¦å­˜å…¥ç¬¬ä¸‰è¡Œ
         for i2 = 1:length(col)
             subsection(3,i2) = (subsection(2,i2)-1) - (subsection(1,i2)+1)+1;
         end
-        %%%µÚÒ»´Î¸ÉÉæÅĞ¶Ï£¬ÅĞ¶Ï¶ËµãÖ®¼äÊÇ·ñ·¢Éú½»²æ
+        %%%ç¬¬ä¸€æ¬¡å¹²æ¶‰åˆ¤æ–­ï¼Œåˆ¤æ–­ç«¯ç‚¹ä¹‹é—´æ˜¯å¦å‘ç”Ÿäº¤å‰
         LogicM1 = ones(1,length(col));
         for i2 = 2:length(col)
             if subsection(1,i2) - subsection(2,i2-1) < 0
                 LogicM1(i2) = 0;
             end
         end
-        %%%ÏÈĞĞÉ¾³ısubsectionÖĞÁ¬Ğø¸ÉÉæµÄÆ¬¶Î£¬Ò²¾ÍÊÇLogicM1ÖĞÕÒµ½Á¬Ğø¶à¸öÎª0µÄ¶Î   
+        %%%å…ˆè¡Œåˆ é™¤subsectionä¸­è¿ç»­å¹²æ¶‰çš„ç‰‡æ®µï¼Œä¹Ÿå°±æ˜¯LogicM1ä¸­æ‰¾åˆ°è¿ç»­å¤šä¸ªä¸º0çš„æ®µ   
         i2 = 1;
         while i2 <length(LogicM1)
             if LogicM1(1,i2) ==0 && LogicM1(1,i2+1) == 0
@@ -178,7 +178,7 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
                  i2 = i2 + 1;
             end
         end
-        %%µÚÒ»´Î¸ÉÉæÅĞ¶ÏÖ®ºóºÏ²¢·¢Éú¸ÉÉæµÄÎ»ÖÃ
+        %%ç¬¬ä¸€æ¬¡å¹²æ¶‰åˆ¤æ–­ä¹‹ååˆå¹¶å‘ç”Ÿå¹²æ¶‰çš„ä½ç½®
         subsection1 = zeros(size(subsection));
         for i2 = 1:length(LogicM1)
             if LogicM1(i2) ~= 0
@@ -187,13 +187,13 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
                 subsection1(2,i2-1) = subsection(2,i2);
             end
         end
-        subsection1(:,all(subsection1==0)) = [];        %É¾³ıÈ«ÁãÁĞ
-        %¼ÆËãsubsection1¾ØÕóÖĞµÄÃ¿¶Î³¤¶È´æÈëµÚÈıĞĞ
+        subsection1(:,all(subsection1==0)) = [];        %åˆ é™¤å…¨é›¶åˆ—
+        %è®¡ç®—subsection1çŸ©é˜µä¸­çš„æ¯æ®µé•¿åº¦å­˜å…¥ç¬¬ä¸‰è¡Œ
         [m,n] = size(subsection1);
         for i2 = 1:n
             subsection1(3,i2) = (subsection1(2,i2)-1) - (subsection1(1,i2)+1)+1;
         end
-        %%%Ñ°ÕÒsubsection1ÖĞµÄ¼«Ğ¡ÖµµãµÄÆ¬¶Îsubsection_min
+        %%%å¯»æ‰¾subsection1ä¸­çš„æå°å€¼ç‚¹çš„ç‰‡æ®µsubsection_min
         Sigmax = SigButtermax;Sigmin = SigButtermin;
         [m,n] = size(subsection1);
         subsection_min = [];
@@ -218,7 +218,7 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
 
     
     %**************************************************************************
-    %Cubic Spline Interpolation Method to Complement Spectral Peaks/Èı´ÎÑùÌõ²åÖµ·¨²¹ÆëÆ×·å
+    %Cubic Spline Interpolation Method to Complement Spectral Peaks/ä¸‰æ¬¡æ ·æ¡æ’å€¼æ³•è¡¥é½è°±å³°
     %[SigButterRIS] = cubic_splin_interpolation(subsection,subsection_min)
     %*************************************************************************
     function [SigButterRIS] = cubic_splin_interpolation(subsection,subsection_min,SigButtermax,SigButtermin)
@@ -229,10 +229,10 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
         
         %the minPoint is used to store the ordinate of the minimum point, the first line is the minimum point on the left side of the spectrum peak, 
         %and the second line is the minimum point on the right side of the spectrum peak
-        %minPointÓÃÀ´´¢´æ¼«Ğ¡ÖµµãµÄ×İ×ø±ê,µÚÒ»ĞĞÊÇÆ×·å×ó²à¼«Ğ¡Öµµã£¬µÚ¶şĞĞÊÇÆ×·åÓÒ²à¼«Ğ¡Öµµã
+        %minPointç”¨æ¥å‚¨å­˜æå°å€¼ç‚¹çš„çºµåæ ‡,ç¬¬ä¸€è¡Œæ˜¯è°±å³°å·¦ä¾§æå°å€¼ç‚¹ï¼Œç¬¬äºŒè¡Œæ˜¯è°±å³°å³ä¾§æå°å€¼ç‚¹
         minPoint = [];      
         for i =1:n
-            %Cubic Spline Difference of Maximum Point Pair/¼«´óÖµÈı´ÎÑùÌõ²îÖµ
+            %Cubic Spline Difference of Maximum Point Pair/æå¤§å€¼ä¸‰æ¬¡æ ·æ¡å·®å€¼
             z = find(abs(tmax - subsection1(1,i)) < 1);
             Lysigmax1 = SigButtermax(1,z);
             z = find(abs(tmax - subsection1(2,i)) < 1);
@@ -241,7 +241,7 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
             y = [Lysigmax1,Rysigmax1];
             ttmax{1,i} = linspace(subsection_min(1,i)+1,subsection_min(3,i)-1,subsection_min(6,i));
             trunction_sig{(i-1)*2+1} = spline(x,y, ttmax{1,i});
-            %Cubic spline difference of minimum point pairs/¼«Ğ¡ÖµÈı´ÎÑùÌõ²îÖµ
+            %Cubic spline difference of minimum point pairs/æå°å€¼ä¸‰æ¬¡æ ·æ¡å·®å€¼
             z = find(abs(tmin - subsection_min(1,i)) < 1);
             Lysigmin1 = SigButtermin(1,z);
             minPoint(1,i) = Lysigmin1;
@@ -254,13 +254,13 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
             trunction_sig{(i-1)*2+2} = spline(x,y,ttmin{1,i});
         end
         %%%Calculate the mean value of the difference between the maximum and minimum values of each segment of the cubic spline
-        %%%ÇóÃ¿Ò»¶Î¼«´óÖµ¼«Ğ¡ÖµÈı´ÎÑùÌõ²îÖµµÄ¾ùÖµ
+        %%%æ±‚æ¯ä¸€æ®µæå¤§å€¼æå°å€¼ä¸‰æ¬¡æ ·æ¡å·®å€¼çš„å‡å€¼
         trunction_mean = cell(n,1);
         for i  = 1:n
             trunction_mean{i,1} = (trunction_sig{(i-1)*2+1}+trunction_sig{(i-1)*2+2})./2;
             trunction_amp(1,i) = (mean(trunction_sig{(i-1)*2+1})-mean(trunction_sig{(i-1)*2+2}))./2;
         end
-        %%%²¹Æëµ½Ô­Ê¼ĞÅºÅÖ®ÉÏ£¬¹Û²ìĞ§¹û
+        %%%è¡¥é½åˆ°åŸå§‹ä¿¡å·ä¹‹ä¸Šï¼Œè§‚å¯Ÿæ•ˆæœ
         SigButterRIS = SigButter;
         for i = 1:n
             z = trunction_mean{i,1};
@@ -271,13 +271,13 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
 
 
     %**************************************************************************
-    %Flip both ends to remove the end effect of emd/Á½¶Ë·­×ªÈ¥³ı¶ËµãĞ§Ó¦
+    %Flip both ends to remove the end effect of emd/ä¸¤ç«¯ç¿»è½¬å»é™¤ç«¯ç‚¹æ•ˆåº”
     %[CompSigButter] = reduce_end_effect(SigButterRIS,FliplrLength)
     %*************************************************************************
     function [CompSigButter,Lsection] = reduce_end_effect(SigButterRIS,FliplrLength)
-        %Cut off the signal from the two ends at the outermost maximum point/½«ĞÅºÅ´ÓÁ½¶ËÔÚ×îÍâ²àµÄ¼«´óÖµµã´¦½Ø¶Ï
-        TruSigButterRIS = SigButterRIS(1,tmax(1,1):tmax(1,end));        %TruSigButterRISÈ¥³ı¼äĞªĞÅºÅºóÖ®ºóµÄĞÅºÅ
-        tmaxL = round(length(tmax)/(FliplrLength));      %tmaxL-´ÓµÚtmaxL¸ö¼«´óÖµµã½Ø¶Ï
+        %Cut off the signal from the two ends at the outermost maximum point/å°†ä¿¡å·ä»ä¸¤ç«¯åœ¨æœ€å¤–ä¾§çš„æå¤§å€¼ç‚¹å¤„æˆªæ–­
+        TruSigButterRIS = SigButterRIS(1,tmax(1,1):tmax(1,end));        %TruSigButterRISå»é™¤é—´æ­‡ä¿¡å·åä¹‹åçš„ä¿¡å·
+        tmaxL = round(length(tmax)/(FliplrLength));      %tmaxL-ä»ç¬¬tmaxLä¸ªæå¤§å€¼ç‚¹æˆªæ–­
         if tmaxL == 1
             tmaxL = tmaxL + 2;
         end
@@ -290,7 +290,7 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
     
     
     %**************************************************************************
-    %Single-step method to find the number of zero crossings/µ¥²½·¨Çó¹ıÁãµã¸öÊı
+    %Single-step method to find the number of zero crossings/å•æ­¥æ³•æ±‚è¿‡é›¶ç‚¹ä¸ªæ•°
     %[scrnum] = scr2(sig)
     %*************************************************************************
     function [scrnum] = scr2(sig)
@@ -309,7 +309,7 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
 
 
     %**************************************************************************
-    %Polynomial fitting to determine the number of peaks/¶àÏîÊ½ÄâºÏÈ·¶¨·åÖµ¸öÊı
+    %Polynomial fitting to determine the number of peaks/å¤šé¡¹å¼æ‹Ÿåˆç¡®å®šå³°å€¼ä¸ªæ•°
     %[peak_number,zcrnumber,gof,x,y,col] = polyfit_ployval_peaknum_zcrnumber(xdata,ydata,alpha,SigButter)
     %*************************************************************************
     function [peak_number,zcrnumber,gof,x,y,col] = polyfit_ployval_peaknum_zcrnumber(xdata,ydata,alpha,SigButter)
@@ -331,7 +331,7 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
         h = plot( fitresult, xData, yData, 'predobs', alpha);set(h,'linewidth',2.0);
         set(gca,'FontSize',16,'Fontname', 'Times New Roman');
         xlabel('Variables','FontSize',20);ylabel('Intensity','FontSize',20);
-        h=findobj(gca,'Type','Line');   % Extract curve data object/ÌáÈ¡ÇúÏßÊı¾İ¶ÔÏó
+        h=findobj(gca,'Type','Line');   % Extract curve data object/æå–æ›²çº¿æ•°æ®å¯¹è±¡
         x = get(h,'xdata');                                                            
         y = get(h,'ydata');
         legend('original signal', 'maximal point',  'maximal point fit line','prediction bounds');
@@ -342,11 +342,11 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
             y_No1(1,i) = y{i,1}(1,1);       
         end
         y_max_loc = find(y_No1 == max(y_No1));
-        up_confidence_line_y = y{y_max_loc,1};      %Output the upper bound coordinates of the confidence interval/½«´ÓÍ¼ÖĞÌáÈ¡³öÀ´µÄ¼¸¸öÏß¶ÎÏòÁ¿±£´æ×îÉÏÃæÄÇÌõÏß£¬¼ÈÖÃĞÅÇø¼äÉÏÏßµÄyÖáÖµºÍxÖáÖµ
+        up_confidence_line_y = y{y_max_loc,1};      %Output the upper bound coordinates of the confidence interval/å°†ä»å›¾ä¸­æå–å‡ºæ¥çš„å‡ ä¸ªçº¿æ®µå‘é‡ä¿å­˜æœ€ä¸Šé¢é‚£æ¡çº¿ï¼Œæ—¢ç½®ä¿¡åŒºé—´ä¸Šçº¿çš„yè½´å€¼å’Œxè½´å€¼
         up_confidence_line_x = x{y_max_loc,1};
-        %Output the number of peaks removed peak_number, and store the abscissa of each peak to be removed/Êä³öÈ¥³ı·åÖµ¸öÊıpeak_number,²¢´¢´æÃ¿¸öĞèÒªÈ¥³ı·åÖµµÄºá×ø±ê
+        %Output the number of peaks removed peak_number, and store the abscissa of each peak to be removed/è¾“å‡ºå»é™¤å³°å€¼ä¸ªæ•°peak_number,å¹¶å‚¨å­˜æ¯ä¸ªéœ€è¦å»é™¤å³°å€¼çš„æ¨ªåæ ‡
         peak_number = 0;
-        col = [];       %the col is used to store the abscissa of the extreme point higher than the upper limit of the confidence interval/colÓÃÀ´´¢´æ¸ßÓÚÖÃĞÅÇø¼äÉÏÏŞµÄ¼«Öµµãºá×ø±ê£¬ÆäÊµ¾ÍÊÇÆ×·åºá×ø±ê
+        col = [];       %the col is used to store the abscissa of the extreme point higher than the upper limit of the confidence interval/colç”¨æ¥å‚¨å­˜é«˜äºç½®ä¿¡åŒºé—´ä¸Šé™çš„æå€¼ç‚¹æ¨ªåæ ‡ï¼Œå…¶å®å°±æ˜¯è°±å³°æ¨ªåæ ‡
         i = 1;
         while i <= length(xdata)
             if ydata(i) > up_confidence_line_y(find(up_confidence_line_x == xdata(i)))
@@ -355,16 +355,16 @@ function [DBSig,baseline] = DD_CF_v1(Sig)
             end
             i = i + 1;
         end
-        %Output the number of zero-crossing points or extreme points of the rough baseline/Êä³ö´Ö²Ú»ùÏßµÄ¹ıÁãµã¸öÊı/¼«Öµµã¸öÊı
-        %The number of zero crossing points of rough baseline/´Ö²Ú»ùÏß¹ıÁãµã¸öÊı
+        %Output the number of zero-crossing points or extreme points of the rough baseline/è¾“å‡ºç²—ç³™åŸºçº¿çš„è¿‡é›¶ç‚¹ä¸ªæ•°/æå€¼ç‚¹ä¸ªæ•°
+        %The number of zero crossing points of rough baseline/ç²—ç³™åŸºçº¿è¿‡é›¶ç‚¹ä¸ªæ•°
 %         up_confidence_line_y_mean = up_confidence_line_y - mean(up_confidence_line_y);
 %         [up_confidence_line_y_mean_scrnum] = scr2(up_confidence_line_y_mean);
 
-        %The number of extreme points/¼«Öµµã¸öÊı
+        %The number of extreme points/æå€¼ç‚¹ä¸ªæ•°
         [tmax_baseline,tmin_baseline,~,~]  = fink_local_peaks(up_confidence_line_y);
         up_confidence_line_y_mean_scrnum = length(tmax_baseline) + length(tmin_baseline);
         
         display(up_confidence_line_y_mean_scrnum);
-        zcrnumber = up_confidence_line_y_mean_scrnum;     %¹ıÁãµãÊı
+        zcrnumber = up_confidence_line_y_mean_scrnum;     %è¿‡é›¶ç‚¹æ•°
     end
 end
