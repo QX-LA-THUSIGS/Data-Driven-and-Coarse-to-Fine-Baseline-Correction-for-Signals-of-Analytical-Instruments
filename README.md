@@ -63,4 +63,4 @@ This program is designed and maintained by the QX-LA-THUSIGS team.
 
 __If you need to cite or improve this algorithm, please declare the original document of this algorithm in your work.)__  
 __References:__  
-Xiangchun Xu, et.al, Data-Driven and Coarse-to-Fine Baseline Correction for Signals of Analytical Instruments[J],Analytica Chimica Acta,2021,1157(338386):1873-4324.（DOI:10.1016/j.aca.2021.338386）
+Xiangchun Xu, Xiang Qian et.al, Data-Driven and Coarse-to-Fine Baseline Correction for Signals of Analytical Instruments[J],Analytica Chimica Acta,2021,1157(338386):1873-4324.（DOI:10.1016/j.aca.2021.338386）
